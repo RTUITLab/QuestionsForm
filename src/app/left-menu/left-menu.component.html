@@ -1,4 +1,9 @@
 <div class="left-menu">
-  <div class="item">
-  </div>
+  <app-left-menu-item *ngIf="!status.fileLoaded" [title]="'Импорт JSON'" [icon]="'folder-open-o'" (itemClick)="dm.loadSingleJSON()"></app-left-menu-item>
+  <app-left-menu-item *ngIf="!status.fileLoaded" [title]="'Импорт ZIP'" [icon]="'file-archive-o'"></app-left-menu-item>
+
+
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Сырой JSON'" [icon]="'code'" [link]="'raw-json'"></app-left-menu-item>
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Закрыть файл'" [icon]="'times'" (itemClick)="dm.close()"></app-left-menu-item>
+
 </div>
