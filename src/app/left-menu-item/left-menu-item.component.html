@@ -1,0 +1,7 @@
+<div class="item" [class.active]="active" (click)="onClick()">
+  <div class="active" *ngIf="active"></div>
+  <div class="icon">
+    <fa name="{{icon}}" size="lg" fixed="true"></fa>
+  </div>
+  <span>{{title}}</span>
+</div>

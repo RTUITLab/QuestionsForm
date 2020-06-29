@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { DataModelService } from '../data-model.service';
+
+
 
 @Component({
   selector: 'app-left-menu',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftMenuComponent implements OnInit {
 
-  constructor() { }
+  status: any;
+
+  constructor(private dm: DataModelService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.status = this.dm.status;
+    this.dm.status.subscribe((status) => {
+      this.status = status;
+      this.cd.detectChanges();
+      console.log(this.status);
+      console.log(status);
+    });
   }
 
 }

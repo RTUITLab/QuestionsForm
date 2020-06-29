@@ -1,7 +1,7 @@
 {
   "name": "test-editor",
   "version": "0.0.0",
-  "main": "app.js",
+  "main": "electron/dist/main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,8 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "el": "electron .",
-    "el-build": "ng build --prod && electron ."
+    "electron": "ng build --base-href ./ && tsc --p electron && electron ."
   },
   "private": true,
   "dependencies": {
@@ -22,6 +21,9 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@types/electron": "^1.6.10",
+    "angular-font-awesome": "^3.1.2",
+    "font-awesome": "^4.7.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

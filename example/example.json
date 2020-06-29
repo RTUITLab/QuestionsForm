@@ -1,0 +1,240 @@
+{
+  "$schema": "./schema.json",
+  "name": "Институт информационных технологий",
+  "description": "Информационные системы и технологии",
+  "uid": "iit",
+  "date_start": "2020-05-21",
+  "date_finish": "2020-07-14",
+  "time": 1800,
+  "is_auto": false,
+  "tests": {
+    "schoolboy": {
+      "A": [
+        {
+          "text": "Сколько будет 2 + 2?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": true,
+              "text": "4",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "2",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "-48",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "56",
+              "img": ""
+            }
+          ]
+        },
+        {
+          "text": "Сколько будет 5-7?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": false,
+              "text": "~",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "45",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "Самолет",
+              "img": ""
+            },
+            {
+              "is_correct": true,
+              "text": "Нет верного ответа",
+              "img": ""
+            }
+          ]
+        }
+      ],
+      "B": [
+        {
+          "text": "Сколько будет 2 + 9?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": true,
+              "text": "11",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "2",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "-48",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "56",
+              "img": ""
+            }
+          ]
+        },
+        {
+          "text": "Сколько будет 5-8?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": false,
+              "text": "~",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "45",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "Самолет",
+              "img": ""
+            },
+            {
+              "is_correct": true,
+              "text": "-3",
+              "img": ""
+            }
+          ]
+        }
+      ]
+    },
+    "student": {
+      "A": [
+        {
+          "text": "Сколько будет 2 + 9?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": true,
+              "text": "11",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "2",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "-48",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "56",
+              "img": ""
+            }
+          ]
+        },
+        {
+          "text": "Сколько будет 5-8?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": false,
+              "text": "~",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "45",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "Самолет",
+              "img": ""
+            },
+            {
+              "is_correct": true,
+              "text": "-3",
+              "img": ""
+            }
+          ]
+        }
+      ],
+      "B": [
+        {
+          "text": "Сколько будет 2 + 9?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": true,
+              "text": "11",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "2",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "-48",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "56",
+              "img": ""
+            }
+          ]
+        },
+        {
+          "text": "Сколько будет 5-8?",
+          "img": "",
+          "weight": 4,
+          "answers": [
+            {
+              "is_correct": false,
+              "text": "~",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "45",
+              "img": ""
+            },
+            {
+              "is_correct": false,
+              "text": "Самолет",
+              "img": ""
+            },
+            {
+              "is_correct": true,
+              "text": "-3",
+              "img": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

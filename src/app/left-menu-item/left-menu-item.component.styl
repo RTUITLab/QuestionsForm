@@ -1,0 +1,33 @@
+.item {
+  width: 200px;
+  height: 48px;
+  vertical-align: middle;
+  cursor: pointer;
+  position: relative;
+  color: #aaa;
+}
+
+.item.active {
+  color: #fff;
+}
+
+.item > .active {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  background-color: #fff;
+  width: 2px;
+}
+
+.item:hover {
+  background-color: #00cefd;
+  color: #000;
+}
+
+.item .icon {
+  display:inline-block;
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  line-height: 48px;
+}
+
