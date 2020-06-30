@@ -40,10 +40,15 @@ var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 var fs = require("fs");
+var rimraf = require("rimraf");
+var unzip = require("unzipper");
 var win;
+var tempFolder = __dirname + '\\temp';
 electron_1.app.on('ready', function () { return __awaiter(_this, void 0, void 0, function () {
     var protocolName;
     return __generator(this, function (_a) {
+        rimraf.sync(tempFolder);
+        fs.mkdirSync(tempFolder);
         createWindow();
         protocolName = 'sfp';
         electron_1.protocol.registerFileProtocol(protocolName, function (request, callback) {
@@ -52,7 +57,6 @@ electron_1.app.on('ready', function () { return __awaiter(_this, void 0, void 0,
                 return callback(decodeURIComponent(url));
             }
             catch (error) {
-                // Handle the error as needed
                 console.error(error);
             }
         });
@@ -64,11 +68,16 @@ electron_1.app.on('activate', function () {
         createWindow();
     }
 });
+electron_1.app.on('window-all-closed', function () {
+    rimraf.sync(tempFolder);
+    electron_1.app.quit();
+});
 function createWindow() {
     win = new electron_1.BrowserWindow({
         width: 800,
         height: 600,
         frame: false,
+        backgroundColor: '#262c35',
         webPreferences: {
             nodeIntegration: true,
         }
@@ -102,7 +111,7 @@ electron_1.ipcMain.on('windowUnmaximize', function (event, arg) {
     win.unmaximize();
 });
 electron_1.ipcMain.on('openDialog', function (event, arg) {
-    if (arg == "single") {
+    if (arg == 'single') {
         var files = electron_1.dialog.showOpenDialog({
             title: 'Открытие теста в формате JSON-файла',
             filters: [
@@ -112,15 +121,62 @@ electron_1.ipcMain.on('openDialog', function (event, arg) {
             properties: ['openFile']
         });
         files.then(function (val) {
-            win.webContents.send('openDialogResponse', val.filePaths[0]);
+            if (val != undefined) {
+                win.webContents.send('openDialogResponse', val.filePaths[0]);
+            }
+            else {
+                win.webContents.send('openDialogResponse', undefined);
+            }
         });
     }
     else {
+        var files = electron_1.dialog.showOpenDialog({
+            title: 'Открытие теста в формате ZIP-архива',
+            filters: [
+                { name: 'ZIP-архивы', extensions: ['zip'] },
+                { name: 'Все файлы', extensions: ['*'] }
+            ],
+            properties: ['openFile']
+        });
+        files.then(function (val) {
+            win.webContents.send('openDialogResponse', val.filePaths[0]);
+        });
     }
 });
 electron_1.ipcMain.on('getJSONFile', function (event, arg) {
-    fs.readFile(arg, 'utf8', function (error, data) {
+    fs.readFile(tempFolder + arg, 'utf8', function (error, data) {
         win.webContents.send('getJSONFileResponse', data);
+    });
+});
+electron_1.ipcMain.on('getImageFile', function (event, arg) {
+    win.webContents.send('getJSONFileResponse', tempFolder + arg);
+});
+electron_1.ipcMain.on('eraseTemp', function (event, arg) {
+    rimraf(tempFolder, function () {
+        fs.mkdir(tempFolder, function () {
+            win.webContents.send('eraseTempResponse', tempFolder);
+        });
+    });
+});
+electron_1.ipcMain.on('copySingleFileToTemp', function (event, arg) {
+    var input = fs.createReadStream(arg);
+    var output = fs.createWriteStream(tempFolder + '\\' + path.basename(arg));
+    input.pipe(output).once('finish', function () {
+        win.webContents.send('copySingleFileToTempResponse', '\\' + path.basename(arg));
+    });
+});
+electron_1.ipcMain.on('copyZipFileToTemp', function (event, arg) {
+    var input = fs.createReadStream(arg);
+    var unzipper = unzip.Extract({ path: tempFolder });
+    input.pipe(unzipper).once('close', function () {
+        win.webContents.send('copyZipFileToTempResponse', tempFolder);
+    });
+});
+electron_1.ipcMain.on('copyTempToZipFile', function (event, arg) {
+    var input = fs.createReadStream(arg);
+    var unzipper = unzip.Extract({ path: tempFolder });
+    input.pipe(unzipper).once('close', function () {
+        win.webContents.send('copyTempToZipFileResponse', tempFolder);
     });
 });
 //# sourceMappingURL=main.js.map

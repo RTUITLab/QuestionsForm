@@ -19,8 +19,6 @@ export class LeftMenuComponent implements OnInit {
     this.dm.status.subscribe((status) => {
       this.status = status;
       this.cd.detectChanges();
-      console.log(this.status);
-      console.log(status);
     });
   }
 

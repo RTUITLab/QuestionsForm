@@ -24,7 +24,6 @@ export class LeftMenuItemComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(() => {
       this.active = this.router.url === ('/' + this.link);
-      console.log(this.router.url + ' = /' + this.link);
     });
   }
 
