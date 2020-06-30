@@ -76,8 +76,11 @@ function createWindow() {
     win = new electron_1.BrowserWindow({
         width: 800,
         height: 600,
+        minWidth: 800,
+        minHeight: 600,
         frame: false,
         backgroundColor: '#262c35',
+        darkTheme: true,
         webPreferences: {
             nodeIntegration: true,
         }

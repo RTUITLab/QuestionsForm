@@ -11,6 +11,8 @@ import { LeftMenuItemComponent } from './left-menu-item/left-menu-item.component
 import { PlaceholderPageComponent } from './placeholder-page/placeholder-page.component';
 import { RawJsonPageComponent } from './raw-json-page/raw-json-page.component';
 import { PreloaderOverlayComponent } from './preloader-overlay/preloader-overlay.component';
+import { ModalOverlayComponent } from './modal-overlay/modal-overlay.component';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: '', component: PlaceholderPageComponent},
@@ -26,13 +28,15 @@ const appRoutes: Routes = [
     LeftMenuItemComponent,
     PlaceholderPageComponent,
     RawJsonPageComponent,
-    PreloaderOverlayComponent
+    PreloaderOverlayComponent,
+    ModalOverlayComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     AppRoutingModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,19 @@
+<div class="outer" *ngIf="isActive">
+  <div class="inner" [class.red]="data.type == 'red'" [class.yellow]="data.type == 'yellow'">
+    <div class="sidebar">
+      <div class="icon">
+        <fa name="exclamation-triangle"></fa>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="header">{{data.title}}</div>
+      <div class="inner-body">{{data.text}}</div>
+    </div>
+
+
+    <div class="buttons">
+      <div class="button" *ngFor="let item of data.buttons" (click)="btnClick(item.id)">{{item.text}}</div>
+    </div>
+  </div>
+</div>
