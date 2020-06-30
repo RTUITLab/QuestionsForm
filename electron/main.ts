@@ -44,8 +44,11 @@ function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    minWidth: 800,
+    minHeight: 600,
     frame: false,
     backgroundColor: '#262c35',
+    darkTheme: true,
     webPreferences: {
       nodeIntegration: true,
     }
@@ -59,7 +62,7 @@ function createWindow() {
     })
   );
 
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   win.on('closed', () => {
     win = null;

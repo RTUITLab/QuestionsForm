@@ -1,2 +1,6 @@
-
-<textarea cols="30" rows="10">{{rawData}}</textarea>
+<div class="main">
+  <div class="option">
+    <span>JSON-представление конфигурации теста (dev only)</span>
+    <textarea class="input wide" [ngModel]="rawData" (ngModelChange)="onChanges($event)"></textarea>
+  </div>
+</div>

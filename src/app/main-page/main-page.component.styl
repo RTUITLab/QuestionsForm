@@ -1,0 +1,66 @@
+input, textarea {outline:none;}
+input:active, textarea:active {outline:none;}
+:focus {outline:none;}
+textarea {resize:none;}
+textarea {resize:vertical;}
+textarea {resize:horizontal;}
+
+input[type=date]::-webkit-calendar-picker-indicator { display: none }
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.main {
+  padding: 20px;
+  padding-top: 0;
+
+}
+
+.option {
+  margin: 10px 0;
+  display:flex;
+  flex-direction:column;
+}
+
+.option > span {
+  font-size: 11pt;
+  display: block;
+  margin: 10px 0;
+
+}
+
+.option > .input {
+  display:flex;
+  flex-direction:column;
+  flex: 1;
+  position: relative;
+  background-color: #262c35;
+  border: 1px solid #595c67;
+  border-radius: 4px;
+  color: #fff;
+  padding: 5px;
+  font-size: 9pt;
+  resize: none;
+  font-family: 'Montserrat' !important;
+}
+
+.option > .input:not(.wide) {
+  align-self: flex-start;
+}
+
+.option > .input[type='date'] {
+  text-align: center;
+}
+
+
+.option > .input:focus {
+  border: 1px solid #fff;
+}
+
+.option > .input::selection {
+  color: rgba(0,0,0,.996) !important;
+  background: rgba(0,206,253,.996) !important;
+}

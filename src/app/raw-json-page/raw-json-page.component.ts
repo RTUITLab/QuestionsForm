@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
 import { DataModelService } from '../data-model.service';
 
 @Component({
@@ -18,6 +18,11 @@ export class RawJsonPageComponent implements OnInit {
     this.dm.data.subscribe((data) => {
       this.rawData = data.raw;
     });
+  }
+
+  onChanges(newVal) {
+    this.rawData = newVal;
+    this.dm.data.next({raw: this.rawData, parsed: JSON.parse(this.rawData)});
   }
 
 }

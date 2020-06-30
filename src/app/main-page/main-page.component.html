@@ -1,3 +1,29 @@
-<p>main page works</p>
+<div class="main">
+  <div class="option">
+    <span>Название института</span>
+    <input class="input wide" type="text" [(ngModel)]="data.name" (ngModelChange)="onChanges($event)" />
+  </div>
+  <div class="option">
+    <span>Идентификатор института</span>
+    <input class="input" type="text" [(ngModel)]="data.uid" (ngModelChange)="onChanges($event)" />
+  </div>
+
+  <div class="option">
+    <span>Название направления</span>
+    <textarea class="input wide" rows="5" [(ngModel)]="data.description" (ngModelChange)="onChanges($event)"></textarea>
+  </div>
 
 
+  <div class="option">
+    <span>Дата начала теста</span>
+    <input class="input" type="date" [(ngModel)]="data.date_start" (input)="onChanges($event)" />
+  </div>
+  <div class="option">
+    <span>Дата окончания теста</span>
+    <input class="input" type="date" [(ngModel)]="data.date_finish" (input)="onChanges($event)" />
+  </div>
+  <div class="option">
+    <span>Время теста</span>
+    <input class="input" type="text" pattern="^[ 0-9]+$" [(ngModel)]="data.time" (input)="onChanges($event)" />
+  </div>
+</div>
