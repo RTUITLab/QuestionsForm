@@ -8,17 +8,18 @@ import { WindowButtonsService } from './window-buttons.service';
   styleUrls: ['./app.component.styl']
 })
 export class AppComponent {
+
   title = 'TestEditor';
-
   isMaximized = false;
-
-  loading = false;
+  status: any;
+  wbRef: any;
 
   constructor(private dm: DataModelService, private wb: WindowButtonsService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.wbRef = this.wb;
     this.dm.status.subscribe((status) => {
-      this.loading = status.loading;
+      this.status = status;
       this.cd.detectChanges();
     });
 

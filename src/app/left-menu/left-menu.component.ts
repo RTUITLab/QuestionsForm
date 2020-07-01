@@ -14,7 +14,10 @@ export class LeftMenuComponent implements OnInit {
 
   constructor(private dm: DataModelService, private cd: ChangeDetectorRef) { }
 
+  dmRef: any;
+
   ngOnInit() {
+    this.dmRef = this.dm;
     this.status = this.dm.status;
     this.dm.status.subscribe((status) => {
       this.status = status;

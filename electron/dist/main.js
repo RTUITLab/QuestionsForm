@@ -40,10 +40,35 @@ var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 var fs = require("fs");
+var util = require("util");
 var rimraf = require("rimraf");
 var unzip = require("unzipper");
 var win;
 var tempFolder = __dirname + '\\temp';
+var awUnlink = util.promisify(fs.unlink);
+var awExists = util.promisify(fs.exists);
+function asyncForEach(array, callback) {
+    return __awaiter(this, void 0, void 0, function () {
+        var index;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    index = 0;
+                    _a.label = 1;
+                case 1:
+                    if (!(index < array.length)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, callback(array[index], index, array)];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3:
+                    index++;
+                    return [3 /*break*/, 1];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
 electron_1.app.on('ready', function () { return __awaiter(_this, void 0, void 0, function () {
     var protocolName;
     return __generator(this, function (_a) {
@@ -132,11 +157,24 @@ electron_1.ipcMain.on('openDialog', function (event, arg) {
             }
         });
     }
-    else {
+    else if (arg == 'zip') {
         var files = electron_1.dialog.showOpenDialog({
             title: 'Открытие теста в формате ZIP-архива',
             filters: [
                 { name: 'ZIP-архивы', extensions: ['zip'] },
+                { name: 'Все файлы', extensions: ['*'] }
+            ],
+            properties: ['openFile']
+        });
+        files.then(function (val) {
+            win.webContents.send('openDialogResponse', val.filePaths[0]);
+        });
+    }
+    else if (arg == 'image') {
+        var files = electron_1.dialog.showOpenDialog({
+            title: 'Добавить изображение',
+            filters: [
+                { name: 'Изображения', extensions: ['jpg', 'jpeg', 'png', 'gif'] },
                 { name: 'Все файлы', extensions: ['*'] }
             ],
             properties: ['openFile']
@@ -151,8 +189,50 @@ electron_1.ipcMain.on('getJSONFile', function (event, arg) {
         win.webContents.send('getJSONFileResponse', data);
     });
 });
-electron_1.ipcMain.on('getImageFile', function (event, arg) {
-    win.webContents.send('getJSONFileResponse', tempFolder + arg);
+electron_1.ipcMain.on('getTempAddr', function (event, arg) {
+    win.webContents.send('getTempAddrResponse', tempFolder);
+});
+electron_1.ipcMain.on('getImageList', function (event, arg) {
+    var res = [];
+    fs.readdir(tempFolder, function (err, items) {
+        items.forEach(function (e) {
+            if (path.extname(e) !== '.json') {
+                res.push(e);
+            }
+        });
+        win.webContents.send('getImageListResponse', res);
+    });
+});
+electron_1.ipcMain.on('removeImagesFromTemp', function (event, arg) {
+    var res = [];
+    fs.readdir(tempFolder, function (err, items) { return __awaiter(_this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, asyncForEach(items, function (e) { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (!(path.extname(e) !== '.json')) return [3 /*break*/, 2];
+                                    return [4 /*yield*/, awUnlink(tempFolder + '\\' + e)];
+                                case 1:
+                                    _a.sent();
+                                    return [3 /*break*/, 4];
+                                case 2: return [4 /*yield*/, Promise.resolve()];
+                                case 3:
+                                    _a.sent();
+                                    _a.label = 4;
+                                case 4: return [2 /*return*/];
+                            }
+                        });
+                    }); })];
+                case 1:
+                    _a.sent();
+                    win.webContents.send('removeImagesFromTempResponse');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
 electron_1.ipcMain.on('eraseTemp', function (event, arg) {
     rimraf(tempFolder, function () {
@@ -168,6 +248,66 @@ electron_1.ipcMain.on('copySingleFileToTemp', function (event, arg) {
         win.webContents.send('copySingleFileToTempResponse', '\\' + path.basename(arg));
     });
 });
+electron_1.ipcMain.on('copySingleFileToTempSafely', function (event, arg) {
+    var ensureUniqueFilename = new Promise(function (resolve, reject) {
+        var currentPath = path.basename(arg);
+        awExists(tempFolder + '\\' + currentPath).then(function (exists) { return __awaiter(_this, void 0, void 0, function () {
+            var num, _loop_1, state_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!!exists) return [3 /*break*/, 1];
+                        resolve(currentPath);
+                        return [3 /*break*/, 4];
+                    case 1:
+                        num = 0;
+                        _loop_1 = function () {
+                            var newPath, breakFlag;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        num++;
+                                        newPath = currentPath.split('.')[0] + (" (" + num + ").") + currentPath.split('.')[1];
+                                        console.log(newPath);
+                                        breakFlag = false;
+                                        return [4 /*yield*/, awExists(tempFolder + '\\' + newPath).then(function (exists) {
+                                                console.log(exists);
+                                                if (!exists) {
+                                                    breakFlag = true;
+                                                    resolve(newPath);
+                                                }
+                                            })];
+                                    case 1:
+                                        _a.sent();
+                                        if (breakFlag) {
+                                            return [2 /*return*/, "break"];
+                                        }
+                                        return [2 /*return*/];
+                                }
+                            });
+                        };
+                        _a.label = 2;
+                    case 2:
+                        if (!true) return [3 /*break*/, 4];
+                        return [5 /*yield**/, _loop_1()];
+                    case 3:
+                        state_1 = _a.sent();
+                        if (state_1 === "break")
+                            return [3 /*break*/, 4];
+                        return [3 /*break*/, 2];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); });
+    });
+    ensureUniqueFilename.then(function (path) {
+        var input = fs.createReadStream(arg);
+        var output = fs.createWriteStream(tempFolder + '\\' + path);
+        input.pipe(output).once('finish', function () {
+            win.webContents.send('copySingleFileToTempSafelyResponse', '\\' + path);
+        });
+    });
+});
 electron_1.ipcMain.on('copyZipFileToTemp', function (event, arg) {
     var input = fs.createReadStream(arg);
     var unzipper = unzip.Extract({ path: tempFolder });
@@ -180,6 +320,17 @@ electron_1.ipcMain.on('copyTempToZipFile', function (event, arg) {
     var unzipper = unzip.Extract({ path: tempFolder });
     input.pipe(unzipper).once('close', function () {
         win.webContents.send('copyTempToZipFileResponse', tempFolder);
+    });
+});
+electron_1.ipcMain.on('removeFileFromTemp', function (event, arg) {
+    fs.unlink(tempFolder + '\\' + arg, function () {
+        win.webContents.send('removeFileFromTempResponse');
+    });
+});
+electron_1.ipcMain.on('checkIfExistsInTemp', function (event, arg) {
+    fs.exists(tempFolder + '\\' + arg, function (exists) {
+        console.log(tempFolder + '\\' + arg);
+        win.webContents.send('checkIfExistsInTempResponse', exists);
     });
 });
 //# sourceMappingURL=main.js.map

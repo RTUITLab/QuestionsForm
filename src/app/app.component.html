@@ -6,7 +6,7 @@
     </div>
 
 
-    <div (click)="wb.minimize()" class="button" id="min">
+    <div (click)="wbRef.minimize()" class="button" id="min">
       <img
         class="icon"
         srcset="
@@ -25,7 +25,7 @@
     </div>
 
     <div
-      (click)="wb.toggleMaximize()"
+      (click)="wbRef.toggleMaximize()"
       *ngIf="!isMaximized"
       class="button"
       id="max"
@@ -48,7 +48,7 @@
     </div>
 
     <div
-      (click)="wb.toggleMaximize()"
+      (click)="wbRef.toggleMaximize()"
       class="button"
       *ngIf="isMaximized"
       id="restore"
@@ -70,7 +70,7 @@
       />
     </div>
 
-    <div (click)="wb.close()" class="button" id="close">
+    <div (click)="wbRef.close()" class="button" id="close">
       <img
         class="icon"
         srcset="
@@ -93,10 +93,10 @@
     <div class="main">
       <app-left-menu></app-left-menu>
       <div class="content">
-        <router-outlet *ngIf="!loading"></router-outlet>
+        <router-outlet *ngIf="!(status.loading && !status.fileLoaded)"></router-outlet>
       </div>
     </div>
-    <app-preloader-overlay *ngIf="loading"></app-preloader-overlay>
+    <app-preloader-overlay *ngIf="status.loading"></app-preloader-overlay>
     <app-modal-overlay></app-modal-overlay>
   </div>
 </div>

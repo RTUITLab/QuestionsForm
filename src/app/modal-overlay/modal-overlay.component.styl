@@ -9,7 +9,7 @@
   backdrop-filter: blur(20px);
 }
 
-.inner {
+.inner.prompt {
   position: relative;
   width: 500px;
   height: 200px;
@@ -25,11 +25,11 @@
   width: 36px;
 }
 
-.inner.red .sidebar {
+.inner.prompt.red .sidebar {
   background-color: #e74d5a;
 }
 
-.inner.yellow .sidebar {
+.inner.prompt.yellow .sidebar {
   background-color: #d5b500;
 }
 
@@ -81,11 +81,11 @@
   cursor: pointer;
 }
 
-.inner.red .button {
+.inner.prompt.red .button {
   background-color: #e74d5a;
 }
 
-.inner.yellow .button {
+.inner.prompt.yellow .button {
   background-color: #d5b500;
 }
 
@@ -94,10 +94,17 @@
   font-weight: 700;
 }
 
-.inner.red .button:hover {
+.inner.prompt.red .button:hover {
   color: #e74d5a;
 }
 
-.inner.yellow .button:hover {
+.inner.prompt.yellow .button:hover {
   color: #d5b500;
+}
+
+
+
+.inner.preview {
+  max-width: 80%;
+  max-height: 80%;
 }

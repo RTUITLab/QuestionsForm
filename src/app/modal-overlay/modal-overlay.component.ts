@@ -23,9 +23,9 @@ export class ModalOverlayComponent implements OnInit {
     });
   }
 
-  btnClick(id) {
+  btnClick(event, id) {
+    if (event.target !== event.currentTarget) return;
     this.isActive = false;
-    console.log(this.data);
     this.data.done.next(id);
   }
 

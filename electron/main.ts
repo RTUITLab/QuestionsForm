@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
+import * as util from 'util';
 import * as archiver from 'archiver';
 import * as rimraf from 'rimraf';
 import * as unzip from 'unzipper';
@@ -9,6 +10,16 @@ import * as unzip from 'unzipper';
 let win: BrowserWindow;
 
 const tempFolder = __dirname + '\\temp';
+
+const awUnlink = util.promisify(fs.unlink);
+const awExists = util.promisify(fs.exists);
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 
 app.on('ready', async () => {
   rimraf.sync(tempFolder);
@@ -62,7 +73,7 @@ function createWindow() {
     })
   );
 
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
   win.on('closed', () => {
     win = null;
@@ -110,11 +121,25 @@ ipcMain.on('openDialog', (event, arg) => {
         win.webContents.send('openDialogResponse', undefined);
       }
     });
-  } else {
+  }
+  else if(arg == 'zip') {
     const files = dialog.showOpenDialog({
       title: 'Открытие теста в формате ZIP-архива',
       filters: [
         { name: 'ZIP-архивы', extensions: ['zip'] },
+        { name: 'Все файлы', extensions: ['*'] }
+      ],
+      properties: ['openFile']
+    });
+    files.then((val) => {
+      win.webContents.send('openDialogResponse', val.filePaths[0]);
+    });
+  }
+  else if(arg == 'image') {
+    const files = dialog.showOpenDialog({
+      title: 'Добавить изображение',
+      filters: [
+        { name: 'Изображения', extensions: ['jpg', 'jpeg', 'png', 'gif'] },
         { name: 'Все файлы', extensions: ['*'] }
       ],
       properties: ['openFile']
@@ -132,8 +157,34 @@ ipcMain.on('getJSONFile', (event, arg) => {
   });
 });
 
-ipcMain.on('getImageFile', (event, arg) => {
-    win.webContents.send('getJSONFileResponse', tempFolder + arg);
+ipcMain.on('getTempAddr', (event, arg) => {
+    win.webContents.send('getTempAddrResponse', tempFolder);
+});
+
+ipcMain.on('getImageList', (event, arg) => {
+  const res = [];
+  fs.readdir(tempFolder, (err, items) => {
+    items.forEach(e => {
+      if(path.extname(e) !== '.json') {
+        res.push(e);
+      }
+    });
+    win.webContents.send('getImageListResponse', res);
+  });
+});
+
+ipcMain.on('removeImagesFromTemp', (event, arg) => {
+  const res = [];
+  fs.readdir(tempFolder, async (err, items) => {
+    await asyncForEach(items, async (e) => {
+      if(path.extname(e) !== '.json') {
+        await awUnlink(tempFolder + '\\' + e);
+      } else {
+        await Promise.resolve();
+      }
+    });
+    win.webContents.send('removeImagesFromTempResponse');
+  });
 });
 
 ipcMain.on('eraseTemp', (event, arg) => {
@@ -152,6 +203,44 @@ ipcMain.on('copySingleFileToTemp', (event, arg) => {
      win.webContents.send('copySingleFileToTempResponse', '\\' + path.basename(arg));
    });
  });
+
+ipcMain.on('copySingleFileToTempSafely', (event, arg) => {
+
+  const ensureUniqueFilename = new Promise<string>((resolve, reject) => {
+    let currentPath = path.basename(arg);
+    awExists(tempFolder + '\\' + currentPath).then( async (exists) => {
+      if(!exists) {
+        resolve(currentPath);
+      } else {
+        let num = 0;
+        while (true) {
+          num++;
+          let newPath = currentPath.split('.')[0] + ` (${num}).` + currentPath.split('.')[1];
+          console.log(newPath);
+          let breakFlag = false;
+          await awExists(tempFolder + '\\' + newPath).then((exists) => {
+            console.log(exists);
+            if(!exists) {
+              breakFlag = true;
+              resolve(newPath);
+            }
+          });
+          if(breakFlag) {
+            break;
+          }
+        }
+      }
+    });
+  });
+
+  ensureUniqueFilename.then((path) => {
+    const input = fs.createReadStream(arg);
+    const output = fs.createWriteStream(tempFolder + '\\' + path);
+    input.pipe(output).once('finish', () => {
+      win.webContents.send('copySingleFileToTempSafelyResponse', '\\' + path);
+    });
+  });
+});
 
 ipcMain.on('copyZipFileToTemp', (event, arg) => {
 
@@ -173,3 +262,15 @@ ipcMain.on('copyTempToZipFile', (event, arg) => {
   });
 });
 
+ipcMain.on('removeFileFromTemp', (event, arg) => {
+  fs.unlink(tempFolder + '\\' + arg, () => {
+    win.webContents.send('removeFileFromTempResponse');
+  });
+});
+
+ipcMain.on('checkIfExistsInTemp', (event, arg) => {
+  fs.exists(tempFolder + '\\' + arg, (exists) => {
+    console.log(tempFolder + '\\' + arg);
+    win.webContents.send('checkIfExistsInTempResponse', exists);
+  });
+});
