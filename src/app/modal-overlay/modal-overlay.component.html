@@ -1,5 +1,5 @@
-<div class="outer" *ngIf="isActive">
-  <div class="inner" [class.red]="data.type == 'red'" [class.yellow]="data.type == 'yellow'">
+<div class="outer" *ngIf="isActive" (click)="btnClick($event, 0)">
+  <div class="inner prompt" *ngIf="data.prompt" [class.red]="data.type == 'red'" [class.yellow]="data.type == 'yellow'">
     <div class="sidebar">
       <div class="icon">
         <fa name="exclamation-triangle"></fa>
@@ -13,7 +13,10 @@
 
 
     <div class="buttons">
-      <div class="button" *ngFor="let item of data.buttons" (click)="btnClick(item.id)">{{item.text}}</div>
+      <div class="button" *ngFor="let item of data.buttons | reverse" (click)="btnClick($event, item.id)">{{item.text}}</div>
     </div>
   </div>
+
+  <img class="inner preview" *ngIf="data.preview" [src]="data.previewImage">
+
 </div>

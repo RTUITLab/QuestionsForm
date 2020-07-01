@@ -1,0 +1,13 @@
+<div class="item">
+  <div class="image" (click)="previewPic()">
+    <img [src]="src" alt="">
+  </div>
+  <div class="header" (click)="previewPic()">
+    {{title}}
+  </div>
+  <div class="buttons">
+    <div class="btn">
+      <fa name="times" (click)="removePic()"></fa>
+    </div>
+  </div>
+</div>

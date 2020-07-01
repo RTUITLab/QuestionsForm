@@ -31,12 +31,25 @@ export class FileTransferService {
     });
   }
 
-  async getImageFile(path: string) {
-    return new Promise<SafeUrl>((resolve, reject) => {
-      electron.ipcRenderer.once('getImageFileResponse', (event, arg) => {
-        resolve(this.sanitizer.bypassSecurityTrustUrl(path));
+  async getTempAddr() {
+    return new Promise<string>((resolve, reject) => {
+      electron.ipcRenderer.once('getTempAddrResponse', (event, arg) => {
+        resolve(arg);
       });
-      electron.ipcRenderer.send('getImageFile', path);
+      electron.ipcRenderer.send('getTempAddr');
+    });
+  }
+
+  sanitizeURL(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  async getImageList() {
+    return new Promise<any>((resolve, reject) => {
+      electron.ipcRenderer.once('getImageListResponse', (event, arg) => {
+        resolve(arg);
+      });
+      electron.ipcRenderer.send('getImageList');
     });
   }
 
@@ -47,6 +60,16 @@ export class FileTransferService {
         resolve(arg);
       });
       electron.ipcRenderer.send('copySingleFileToTemp', path);
+    });
+  }
+
+  async copySingleFileToTempSafely(path: string) {
+
+    return new Promise<string>((resolve, reject) => {
+      electron.ipcRenderer.once('copySingleFileToTempSafelyResponse', (event, arg) => {
+        resolve(arg);
+      });
+      electron.ipcRenderer.send('copySingleFileToTempSafely', path);
     });
   }
 
@@ -65,6 +88,33 @@ export class FileTransferService {
         resolve();
       });
       electron.ipcRenderer.send('eraseTemp');
+    });
+  }
+
+  async removeFileFromTemp(path) {
+    return new Promise<any>((resolve, reject) => {
+      electron.ipcRenderer.once('removeFileFromTempResponse', (event, arg) => {
+        resolve();
+      });
+      electron.ipcRenderer.send('removeFileFromTemp', path);
+    });
+  }
+
+  async removeImagesFromTemp() {
+    return new Promise<any>((resolve, reject) => {
+      electron.ipcRenderer.once('removeImagesFromTempResponse', (event, arg) => {
+        resolve();
+      });
+      electron.ipcRenderer.send('removeImagesFromTemp');
+    });
+  }
+
+  async checkIfExistsInTemp(path) {
+    return new Promise<any>((resolve, reject) => {
+      electron.ipcRenderer.once('checkIfExistsInTempResponse', (event, arg) => {
+        resolve(arg);
+      });
+      electron.ipcRenderer.send('checkIfExistsInTemp', path);
     });
   }
 }

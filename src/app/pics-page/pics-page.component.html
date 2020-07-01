@@ -1,0 +1,14 @@
+<div class="main">
+
+  <div class="topbar">
+    <div class="btn blue" (click)="addPic()">Добавить изображение</div>
+    <div class="btn red" (click)="removeAllPics()">Удалить все</div>
+  </div>
+
+  <div class="list">
+
+    <app-pics-item *ngFor="let item of images" [title]="item" [src]="getPic(item)"></app-pics-item>
+
+  </div>
+
+</div>

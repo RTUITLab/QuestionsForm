@@ -93,10 +93,10 @@
     <div class="main">
       <app-left-menu></app-left-menu>
       <div class="content">
-        <router-outlet *ngIf="!loading"></router-outlet>
+        <router-outlet *ngIf="!(status.loading && !status.fileLoaded)"></router-outlet>
       </div>
     </div>
-    <app-preloader-overlay *ngIf="loading"></app-preloader-overlay>
+    <app-preloader-overlay *ngIf="status.loading"></app-preloader-overlay>
     <app-modal-overlay></app-modal-overlay>
   </div>
 </div>
