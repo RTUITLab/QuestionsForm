@@ -4,12 +4,12 @@
   "main": "electron/dist/main.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build --base-href ./ && tsc --p electron && electron ."
+    "start": "ng build --base-href ./ && tsc --p electron && electron .",
+    "rebuild": "electron-rebuild -f",
+    "build": "ng build --prod --base-href ./ && tsc --p electron && electron-packager . test-editor  --platform=win32 --arch=ia32 --overwrite --out=./package"
   },
   "private": true,
   "dependencies": {
@@ -43,6 +43,7 @@
     "codelyzer": "^5.0.0",
     "electron": "^9.0.5",
     "electron-packager": "^15.0.0",
+    "electron-rebuild": "^1.11.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
