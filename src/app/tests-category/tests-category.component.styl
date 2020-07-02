@@ -1,0 +1,90 @@
+.category {
+  width: 100%;
+  position: relative;
+  color: #aaa;
+}
+
+.category:not(:last-of-type) {
+  border-bottom: 1px solid #595c67;
+}
+
+.category .header {
+  width: 100%;
+  position: relative;
+  background-color: #3c404d;
+  height: 28px;
+}
+
+.category .header .arrow {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.category .header:hover .arrow {
+  color: #fff;
+}
+
+.category .header .text {
+  font-size: 9pt;
+  line-height: 28px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 28px;
+  right: 40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.category .header:hover .text {
+  color: #fff;
+}
+
+.category .header .buttons {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.category .header .buttons .btn {
+  display: flex;
+  margin-right: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  justify-content: center;
+  border: 1px solid #3c404d;
+  color: #aaa;
+}
+
+.category .header .buttons .btn:last-child {
+  margin-right: 5px;
+}
+
+.category .header .buttons .btn.red:hover {
+  border: 1px solid #e74d5a;
+  background-color: #e74d5a;
+  color: #fff;
+}
+
+.category .header .buttons .btn.blue:hover {
+  border: 1px solid #00cefd;
+  background-color: #00cefd;
+  color: #fff;
+}
+
+.category .body {
+  width: 100%;
+  position: relative;
+  background-color: #262c35;
+  padding-top: 5px;
+  padding-bottom: 12px;
+}

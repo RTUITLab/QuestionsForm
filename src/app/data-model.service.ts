@@ -20,6 +20,13 @@ const protoImages = {
   images: [],
 };
 
+const protoTestItem = {
+  text: 'Новый вопрос',
+  img: '',
+  weight: 1,
+  answers: []
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -34,6 +41,20 @@ export class DataModelService {
     private router: Router,
     private mm: ModalManagerService
   ) {}
+
+  updateDataRaw(newData = null) {
+    if(!newData) {
+      newData = this.data.getValue().raw;
+    }
+    this.data.next({raw: newData, parsed: JSON.parse(newData)});
+  }
+  updateDataParsed(newData = null) {
+    if(!newData) {
+      newData = this.data.getValue().parsed;
+    }
+    this.data.next({raw: JSON.stringify(newData, null, 2), parsed: newData});
+    console.log(newData);
+  }
 
   loadSingleJSON() {
     const newStatus = Object.create(protoStatus);
@@ -52,7 +73,7 @@ export class DataModelService {
             this.ft.getJSONFile(path).then((data) => {
               this.images.next({ images: [] });
               this.router.navigate(["main"]);
-              this.data.next({ raw: data, parsed: JSON.parse(data) });
+              this.updateDataRaw(data);
               const newStatus = Object.create(protoStatus);
               newStatus.fileLoaded = true;
               newStatus.filePath = path;
@@ -84,7 +105,7 @@ export class DataModelService {
               this.ft.getImageList().then((items) => {
                 this.images.next({ images: items });
                 this.router.navigate(["main"]);
-                this.data.next({ raw: data, parsed: JSON.parse(data) });
+                this.updateDataRaw(data);
                 const newStatus = Object.create(protoStatus);
                 newStatus.fileLoaded = true;
                 newStatus.filePath = path;
@@ -138,6 +159,56 @@ export class DataModelService {
     this.ft.removeImagesFromTemp().then(() => {
       this.updateImageList();
     });
+  }
+
+  getTestCategory(category) {
+    if(category == 'schoolboy'){
+        return this.data.getValue().parsed.tests.schoolboy;
+    } else {
+        return this.data.getValue().parsed.tests.student;
+    }
+  }
+
+  getTestType(category, type) {
+    if(type == 'A') {
+      return this.getTestCategory(category).A;
+    } else {
+      return this.getTestCategory(category).B;
+    }
+  }
+
+  getTestItem(id, category, type) {
+    return this.getTestType(category, type)[id];
+  }
+
+  getAnotherCategory(category) {
+    return category == 'schoolboy' ? 'student' : 'schoolboy';
+  }
+
+  getAnotherType(type) {
+    return type == 'A' ? 'B' : 'A';
+  }
+
+  addTestItem(category, type) {
+    this.getTestType(category, type).push(protoTestItem);
+    this.updateDataParsed();
+  }
+
+  removeTestItem(id, category, type) {
+    this.getTestType(category, type).splice(id, 1);
+    this.updateDataParsed();
+  }
+
+  removeTestItemsOfCategory(category) {
+    this.getTestCategory(category).A = [];
+    this.getTestCategory(category).B = [];
+    this.updateDataParsed();
+  }
+
+  toggleTestItemType(id, category, type) {
+    this.getTestType(category, this.getAnotherType(type)).push(this.getTestType(category, type)[id]);
+    this.getTestType(category, type).splice(id, 1);
+    this.updateDataParsed();
   }
 
   close() {

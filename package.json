@@ -21,11 +21,13 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@ionic/angular": "^5.2.3",
     "@types/electron": "^1.6.10",
     "adm-zip": "^0.4.16",
     "angular-font-awesome": "^3.1.2",
     "archiver": "^4.0.1",
     "font-awesome": "^4.7.0",
+    "ionicons": "^4.6.3",
     "ngx-pipes": "^2.7.3",
     "rimraf": "^3.0.2",
     "rxjs": "~6.4.0",
@@ -55,6 +57,7 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.10.2",
     "tslint": "~6.1.2",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "@ionic/angular-toolkit": "latest"
   }
 }

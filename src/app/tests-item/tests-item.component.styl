@@ -1,0 +1,113 @@
+.item {
+  height: 24px;
+  width: 100%;
+  position: relative;
+}
+
+.item .text {
+  font-size: 8pt;
+  line-height: 24px;
+  position: absolute;
+  top: 0; bottom: 0; left: 15px; right: 65px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.item:hover .text {
+  color: #fff;
+}
+
+.item .buttons {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+
+.item:not(:hover) .text {
+  right: 45px;
+}
+
+.item:not(:hover) .buttons .btn {
+  display: none;
+}
+
+.item .buttons .btn {
+  display: flex;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  justify-content: center;
+  border: 1px solid #3c404d;
+  color: #aaa;
+}
+
+.item .buttons .btn.red:hover {
+  border: 1px solid #e74d5a;
+  background-color: #e74d5a;
+  color: #fff;
+}
+
+.item .buttons .btn.blue:hover {
+  border: 1px solid #00cefd;
+  background-color: #00cefd;
+  color: #fff;
+}
+
+.item .buttons .slider {
+  display: flex;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  justify-content: center;
+  border: 1px solid #3c404d;
+  color: #aaa;
+  font-size: 8pt;
+}
+
+.item .buttons .slider .off,
+.item .buttons .slider .on {
+  display: flex;
+  cursor: pointer;
+  padding: 0 4px;
+  color: #aaa;
+  height: 16px;
+  line-height: 17px;
+}
+
+.item .buttons .slider.off .off {
+  color: #00cefd;
+  background-color: #3c404d;
+  border-radius: 2px 4px 4px 2px;
+  padding: 0 5px 0 4px;
+}
+
+.item .buttons .slider.off:hover .off {
+  color: #fff;
+  background-color: #00cefd;
+}
+
+.item .buttons .slider.off:hover {
+  border: 1px solid #00cefd;
+}
+
+.item .buttons .slider.on .on {
+  color: #fd566c;
+  background-color: #3c404d;
+  border-radius: 4px 2px 2px 4px;
+  padding: 0 4px 0 5px;
+}
+
+.item .buttons .slider.on:hover .on {
+  color: #fff;
+  background-color: #e74d5a;
+}
+
+.item .buttons .slider.on:hover {
+  border: 1px solid #e74d5a;
+}
+

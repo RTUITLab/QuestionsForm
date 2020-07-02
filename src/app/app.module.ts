@@ -16,12 +16,18 @@ import { ModalOverlayComponent } from './modal-overlay/modal-overlay.component';
 import { FormsModule } from '@angular/forms';
 import { PicsPageComponent } from './pics-page/pics-page.component';
 import { PicsItemComponent } from './pics-item/pics-item.component';
+import { TestsPageComponent } from './tests-page/tests-page.component';
+import { TestsSelectorComponent } from './tests-selector/tests-selector.component';
+import { IonicModule } from '@ionic/angular';
+import { TestsItemComponent } from './tests-item/tests-item.component';
+import { TestsCategoryComponent } from './tests-category/tests-category.component';
 
 const appRoutes: Routes = [
   { path: '', component: PlaceholderPageComponent},
   { path: 'main', component: MainPageComponent},
   { path: 'raw-json', component: RawJsonPageComponent},
-  { path: 'pics', component: PicsPageComponent}
+  { path: 'pics', component: PicsPageComponent},
+  { path: 'tests', component: TestsPageComponent}
 ];
 
 @NgModule({
@@ -35,7 +41,11 @@ const appRoutes: Routes = [
     PreloaderOverlayComponent,
     ModalOverlayComponent,
     PicsPageComponent,
-    PicsItemComponent
+    PicsItemComponent,
+    TestsPageComponent,
+    TestsSelectorComponent,
+    TestsItemComponent,
+    TestsCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +53,8 @@ const appRoutes: Routes = [
     AppRoutingModule,
     AngularFontAwesomeModule,
     FormsModule,
-    NgPipesModule
+    NgPipesModule,
+    IonicModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
