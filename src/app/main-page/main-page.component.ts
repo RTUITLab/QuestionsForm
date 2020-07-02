@@ -21,11 +21,7 @@ export class MainPageComponent implements OnInit {
     });
   }
 
-  onChanges(newVal) {
+  onChanges(event) {
     this.dm.data.next({raw: JSON.stringify(this.data, null, 2), parsed: this.data});
-  }
-
-  log(s) {
-    console.log(s);
   }
 }

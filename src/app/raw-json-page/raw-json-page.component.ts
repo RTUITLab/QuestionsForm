@@ -22,7 +22,7 @@ export class RawJsonPageComponent implements OnInit {
 
   onChanges(newVal) {
     this.rawData = newVal;
-    this.dm.data.next({raw: this.rawData, parsed: JSON.parse(this.rawData)});
+    this.dm.updateDataRaw(newVal);
   }
 
 }

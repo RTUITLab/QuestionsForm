@@ -4,7 +4,7 @@
 
 
   <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Параметры теста'" [icon]="'cog'" [link]="'main'"></app-left-menu-item>
-
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Вопросы теста'" [icon]="'check-square-o'" [link]="'tests'"></app-left-menu-item>
   <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Изображения'" [icon]="'picture-o'" [link]="'pics'"></app-left-menu-item>
   <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Сырой JSON'" [icon]="'code'" [link]="'raw-json'"></app-left-menu-item>
 
