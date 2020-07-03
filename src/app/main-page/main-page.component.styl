@@ -16,9 +16,10 @@ input[type=date]::-webkit-outer-spin-button {
 .main {
   padding: 20px;
   padding-top: 0;
+  padding-bottom: 10px;
   position: absolute;
+  overflow: auto;
   top: 0; bottom: 0; left: 0; right: 0;
-  border-left: 5px solid #1c2026;
 }
 
 .option {
@@ -34,7 +35,7 @@ input[type=date]::-webkit-outer-spin-button {
 
 }
 
-.option > .input {
+.option > .input:not([type="checkbox"]) {
   display:flex;
   flex-direction:column;
   flex: 1;
@@ -49,6 +50,7 @@ input[type=date]::-webkit-outer-spin-button {
   font-family: 'Montserrat' !important;
 }
 
+
 .option > .input:not(.wide) {
   align-self: flex-start;
 }
@@ -57,9 +59,63 @@ input[type=date]::-webkit-outer-spin-button {
   text-align: center;
 }
 
+.option > .input[type='checkbox'] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.option > .input[type='checkbox']+label {
+  display: inline-flex;
+  font-size: 10pt;
+  width: 0;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+}
+.option > .input[type='checkbox']+label .fakebox {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border: 1px solid #595c67;
+  border-radius: 4px;
+  margin-right: 0.5em;
+}
+
+.option > .input[type='checkbox']:hover+label .fakebox {
+  border: 1px solid #fff;
+}
+
+.option > .input[type='checkbox']:checked+label .fakebox {
+  border: 1px solid #00cefd;
+  background-color: #00cefd;
+  --ionicon-stroke-width: 64px;
+}
+
+
+.option > .input[type='checkbox']+label .fakebox .check {
+  font-size: 16px;
+}
+
+.option > .input[type='checkbox']:not(:checked)+label .fakebox .check {
+  display: none;
+}
+
+
 
 .option > .input:focus {
   border: 1px solid #fff;
+}
+
+.option > .input:invalid {
+  color: #ff5468;
+  border: 1px solid #e74d5a;
+}
+
+.option > .input:focus:invalid {
+  color: #fff;
 }
 
 .option > .input::selection {

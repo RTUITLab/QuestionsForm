@@ -11,6 +11,7 @@ export class ModalManagerService {
   public modal: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   pushModal(data: any) {
+
     this.modal.next(data);
   }
 }

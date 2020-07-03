@@ -54,9 +54,9 @@ app.on('window-all-closed', () => {
 function createWindow() {
   win = new BrowserWindow({
     width: 800,
-    height: 600,
-    minWidth: 800,
-    minHeight: 600,
+    height: 640,
+    minWidth: 640,
+    minHeight: 480,
     frame: false,
     backgroundColor: '#262c35',
     darkTheme: true,

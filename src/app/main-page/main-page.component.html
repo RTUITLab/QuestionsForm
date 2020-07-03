@@ -1,16 +1,16 @@
 <div class="main">
   <div class="option">
     <span>Название института</span>
-    <input class="input wide" type="text" [(ngModel)]="data.name" (ngModelChange)="onChanges($event)" />
+    <input class="input wide" type="text" spellcheck="false" [(ngModel)]="data.name" (ngModelChange)="onChanges($event)" />
   </div>
   <div class="option">
     <span>Идентификатор института</span>
-    <input class="input" type="text" [(ngModel)]="data.uid" (ngModelChange)="onChanges($event)" />
+    <input class="input" type="text" spellcheck="false" [(ngModel)]="data.uid" (ngModelChange)="onChanges($event)" />
   </div>
 
   <div class="option">
     <span>Название направления</span>
-    <textarea class="input wide" rows="5" [(ngModel)]="data.description" (ngModelChange)="onChanges($event)"></textarea>
+    <textarea class="input wide" rows="5" spellcheck="false" [(ngModel)]="data.description" (ngModelChange)="onChanges($event)"></textarea>
   </div>
 
 
@@ -24,6 +24,17 @@
   </div>
   <div class="option">
     <span>Время теста</span>
-    <input class="input" type="text" pattern="^[ 0-9]+$" [(ngModel)]="data.time" (input)="onChanges($event)" />
+    <input class="input" type="text" spellcheck="false" pattern="^[ 0-9]+$" [(ngModel)]="data.time" (input)="onChanges($event, data.time, '^[ 0-9]+$')" />
+  </div>
+
+  <div class="option">
+    <span>Флаг "Auto"</span>
+    <input class="input" type="checkbox" [checked]="data.is_auto" (change)="onCheckboxChanges(optionAuto, 'is_auto')" #optionAuto id="optionAuto">
+    <label for="optionAuto">
+      <div class="fakebox">
+        <ion-icon class="check" name="checkmark-outline"></ion-icon>
+      </div>
+      is_auto
+    </label>
   </div>
 </div>
