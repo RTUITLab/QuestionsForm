@@ -1,13 +1,12 @@
 <div class="left-menu">
-  <app-left-menu-item *ngIf="!status.fileLoaded" [title]="'Импорт JSON'" [icon]="'folder-open-o'" (itemClick)="dmRef.loadSingleJSON()"></app-left-menu-item>
-  <app-left-menu-item *ngIf="!status.fileLoaded" [title]="'Импорт ZIP'" [icon]="'file-archive-o'" (itemClick)="dmRef.loadZip()"></app-left-menu-item>
+  <app-left-menu-item *ngIf="!status.fileLoaded" [title]="'Импорт JSON'" [icon]="'folder-open-outline'" (itemClick)="dmRef.loadSingleJSON()"></app-left-menu-item>
+  <app-left-menu-item *ngIf="!status.fileLoaded" [title]="'Импорт ZIP'" [icon]="'cube-outline'" (itemClick)="dmRef.loadZip()"></app-left-menu-item>
 
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Параметры теста'" [icon]="'options-outline'" [link]="'main'"></app-left-menu-item>
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Вопросы теста'" [icon]="'checkmark-done-outline'" [link]="'tests'"></app-left-menu-item>
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Изображения'" [icon]="'images-outline'" [link]="'pics'"></app-left-menu-item>
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Сырой JSON'" [icon]="'code-slash-outline'" [link]="'raw-json'"></app-left-menu-item>
 
-  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Параметры теста'" [icon]="'cog'" [link]="'main'"></app-left-menu-item>
-  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Вопросы теста'" [icon]="'check-square-o'" [link]="'tests'"></app-left-menu-item>
-  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Изображения'" [icon]="'picture-o'" [link]="'pics'"></app-left-menu-item>
-  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Сырой JSON'" [icon]="'code'" [link]="'raw-json'"></app-left-menu-item>
-
-  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Закрыть файл'" [icon]="'times'" (itemClick)="dmRef.close()"></app-left-menu-item>
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Закрыть файл'" [icon]="'close-outline'" (itemClick)="dmRef.close()"></app-left-menu-item>
 
 </div>

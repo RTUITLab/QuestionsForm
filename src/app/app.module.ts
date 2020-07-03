@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LeftMenuComponent } from './left-menu/left-menu.component';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { LeftMenuItemComponent } from './left-menu-item/left-menu-item.component';
 import { PlaceholderPageComponent } from './placeholder-page/placeholder-page.component';
 import { RawJsonPageComponent } from './raw-json-page/raw-json-page.component';
@@ -51,7 +50,6 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     AppRoutingModule,
-    AngularFontAwesomeModule,
     FormsModule,
     NgPipesModule,
     IonicModule.forRoot()
