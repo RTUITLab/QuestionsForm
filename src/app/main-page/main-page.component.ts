@@ -21,7 +21,20 @@ export class MainPageComponent implements OnInit {
     });
   }
 
-  onChanges(event) {
-    this.dm.data.next({raw: JSON.stringify(this.data, null, 2), parsed: this.data});
+  onChanges(event, val = null, reg = null) {
+    if(!reg) {
+      this.dm.updateDataParsed(this.data);
+    }else {
+      const regexp = new RegExp(reg);
+      if(val.match(regexp) != null) {
+        this.dm.updateDataParsed(this.data);
+      }
+    }
+  }
+
+  onCheckboxChanges(e, param) {
+    this.data[param] = e.checked;
+    console.log(this.data[param]);
+    this.dm.updateDataParsed(this.data);
   }
 }

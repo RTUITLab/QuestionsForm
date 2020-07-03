@@ -53,7 +53,6 @@ export class DataModelService {
       newData = this.data.getValue().parsed;
     }
     this.data.next({raw: JSON.stringify(newData, null, 2), parsed: newData});
-    console.log(newData);
   }
 
   loadSingleJSON() {
@@ -195,14 +194,50 @@ export class DataModelService {
   }
 
   removeTestItem(id, category, type) {
-    this.getTestType(category, type).splice(id, 1);
-    this.updateDataParsed();
+    let callback: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+    callback.subscribe((result) => {
+      if (result == 1) {
+        this.getTestType(category, type).splice(id, 1);
+        this.updateDataParsed();
+      }
+    });
+
+    this.mm.pushModal({
+      prompt: true,
+      type: "red",
+      title: "Удаление вопроса",
+      text: "Данное действие необратимо. Вы точно хотите удалить вопрос?",
+      done: callback,
+      buttons: [
+        { id: 0, text: "Нет" },
+        { id: 1, text: "Да" },
+      ],
+    });
   }
 
   removeTestItemsOfCategory(category) {
-    this.getTestCategory(category).A = [];
-    this.getTestCategory(category).B = [];
-    this.updateDataParsed();
+    let callback: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+    callback.subscribe((result) => {
+      if (result == 1) {
+        this.getTestCategory(category).A = [];
+        this.getTestCategory(category).B = [];
+        this.updateDataParsed();
+      }
+    });
+
+    this.mm.pushModal({
+      prompt: true,
+      type: "red",
+      title: "Очистка категории",
+      text: "Данное действие необратимо. Вы точно хотите удалить все вопросы категории?",
+      done: callback,
+      buttons: [
+        { id: 0, text: "Нет" },
+        { id: 1, text: "Да" },
+      ],
+    });
   }
 
   toggleTestItemType(id, category, type) {
