@@ -24,8 +24,12 @@ export class TestsCategoryComponent implements OnInit {
     });
   }
 
-  toggle() {
-    this.isOpened = !this.isOpened;
+  toggle(state: null) {
+    if(state != null) {
+      this.isOpened = state;
+    } else {
+      this.isOpened = !this.isOpened;
+    }
   }
 
   addItem() {
