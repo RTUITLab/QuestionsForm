@@ -20,6 +20,7 @@ import { TestsSelectorComponent } from './tests-selector/tests-selector.componen
 import { IonicModule } from '@ionic/angular';
 import { TestsItemComponent } from './tests-item/tests-item.component';
 import { TestsCategoryComponent } from './tests-category/tests-category.component';
+import { TestsOptionsComponent } from './tests-options/tests-options.component';
 
 const appRoutes: Routes = [
   { path: '', component: PlaceholderPageComponent},
@@ -45,6 +46,7 @@ const appRoutes: Routes = [
     TestsSelectorComponent,
     TestsItemComponent,
     TestsCategoryComponent,
+    TestsOptionsComponent,
   ],
   imports: [
     BrowserModule,
