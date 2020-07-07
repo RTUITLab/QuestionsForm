@@ -61,12 +61,18 @@ export class DataModelService {
       newData = this.data.getValue().raw;
     }
     this.data.next({raw: newData, parsed: JSON.parse(newData)});
+    this.updateDataInTemp();
   }
   updateDataParsed(newData = null) {
     if(!newData) {
       newData = this.data.getValue().parsed;
     }
     this.data.next({raw: JSON.stringify(newData, null, 2), parsed: newData});
+    this.updateDataInTemp();
+  }
+
+  updateDataInTemp() {
+    return this.ft.UpdateJSONInTemp(this.data.getValue().raw);
   }
 
   loadSingleJSON() {
@@ -82,7 +88,7 @@ export class DataModelService {
             this.status.next(Object.create(protoStatus));
             return;
           }
-          this.ft.copySingleFileToTemp(path).then((path) => {
+          this.ft.copyJSONToTemp(path).then((path) => {
             this.ft.getJSONFile(path).then((data) => {
               this.images.next({ images: [] });
               this.router.navigate(["main"]);
@@ -325,6 +331,27 @@ export class DataModelService {
   removeAllAnswers(category, type, testId) {
     this.getTestType(category, type)[testId].answers = [];
     this.updateDataParsed();
+  }
+
+  exportZip() {
+    const newStatus = Object.create(this.status.getValue());
+    newStatus.loading = true;
+    this.status.next(newStatus);
+
+    this.ft.saveDialog("zip").then((path) => {
+      if (path === undefined) {
+        const newStatus = Object.create(this.status.getValue());
+        newStatus.loading = false;
+        this.status.next(newStatus);
+        return;
+      }
+      this.ft.ExportTempToZip(path).then(() => {
+        const newStatus = Object.create(this.status.getValue());
+        newStatus.loading = false;
+        this.status.next(newStatus);
+      });
+    });
+
   }
 
 }

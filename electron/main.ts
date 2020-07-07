@@ -20,7 +20,6 @@ async function asyncForEach(array, callback) {
   }
 }
 
-
 app.on('ready', async () => {
   rimraf.sync(tempFolder);
   fs.mkdirSync(tempFolder);
@@ -35,10 +34,7 @@ app.on('ready', async () => {
       console.error(error);
     }
   });
-
 });
-
-
 
 app.on('activate', () => {
   if (win === null) {
@@ -62,7 +58,7 @@ function createWindow() {
     darkTheme: true,
     webPreferences: {
       nodeIntegration: true,
-    }
+    },
   });
 
   win.loadURL(
@@ -103,52 +99,82 @@ ipcMain.on('windowUnmaximize', (event, arg) => {
   win.unmaximize();
 });
 
-
 ipcMain.on('openDialog', (event, arg) => {
   if (arg == 'single') {
     const files = dialog.showOpenDialog({
       title: 'Открытие теста в формате JSON-файла',
       filters: [
         { name: 'JSON-файлы', extensions: ['json'] },
-        { name: 'Все файлы', extensions: ['*'] }
+        { name: 'Все файлы', extensions: ['*'] },
       ],
-      properties: ['openFile']
+      properties: ['openFile'],
     });
     files.then((val) => {
-      if(val != undefined) {
+      if (val != undefined) {
         win.webContents.send('openDialogResponse', val.filePaths[0]);
       } else {
         win.webContents.send('openDialogResponse', undefined);
       }
     });
-  }
-  else if(arg == 'zip') {
+  } else if (arg == 'zip') {
     const files = dialog.showOpenDialog({
       title: 'Открытие теста в формате ZIP-архива',
       filters: [
         { name: 'ZIP-архивы', extensions: ['zip'] },
-        { name: 'Все файлы', extensions: ['*'] }
+        { name: 'Все файлы', extensions: ['*'] },
       ],
-      properties: ['openFile']
+      properties: ['openFile'],
     });
     files.then((val) => {
       win.webContents.send('openDialogResponse', val.filePaths[0]);
     });
-  }
-  else if(arg == 'image') {
+  } else if (arg == 'image') {
     const files = dialog.showOpenDialog({
       title: 'Добавить изображение',
       filters: [
         { name: 'Изображения', extensions: ['jpg', 'jpeg', 'png', 'gif'] },
-        { name: 'Все файлы', extensions: ['*'] }
+        { name: 'Все файлы', extensions: ['*'] },
       ],
-      properties: ['openFile']
+      properties: ['openFile'],
     });
     files.then((val) => {
       win.webContents.send('openDialogResponse', val.filePaths[0]);
     });
   }
+});
 
+ipcMain.on('saveDialog', (event, arg) => {
+  if (arg == 'single') {
+    const files = dialog.showSaveDialog({
+      title: 'Экспорт теста в формате JSON-файла',
+      filters: [
+        { name: 'JSON-файлы', extensions: ['json'] },
+        { name: 'Все файлы', extensions: ['*'] },
+      ]
+    });
+    files.then((val) => {
+      if (val != undefined) {
+        win.webContents.send('saveDialogResponse', val.filePath);
+      } else {
+        win.webContents.send('saveDialogResponse', undefined);
+      }
+    });
+  } else if (arg == 'zip') {
+    const files = dialog.showSaveDialog({
+      title: 'Экспорт теста в формате ZIP-архива',
+      filters: [
+        { name: 'ZIP-архивы', extensions: ['zip'] },
+        { name: 'Все файлы', extensions: ['*'] },
+      ]
+    });
+    files.then((val) => {
+      if (val != undefined) {
+        win.webContents.send('saveDialogResponse', val.filePath);
+      } else {
+        win.webContents.send('saveDialogResponse', undefined);
+      }
+    });
+  }
 });
 
 ipcMain.on('getJSONFile', (event, arg) => {
@@ -158,14 +184,14 @@ ipcMain.on('getJSONFile', (event, arg) => {
 });
 
 ipcMain.on('getTempAddr', (event, arg) => {
-    win.webContents.send('getTempAddrResponse', tempFolder);
+  win.webContents.send('getTempAddrResponse', tempFolder);
 });
 
 ipcMain.on('getImageList', (event, arg) => {
   const res = [];
   fs.readdir(tempFolder, (err, items) => {
-    items.forEach(e => {
-      if(path.extname(e) !== '.json') {
+    items.forEach((e) => {
+      if (path.extname(e) !== '.json') {
         res.push(e);
       }
     });
@@ -177,7 +203,7 @@ ipcMain.on('removeImagesFromTemp', (event, arg) => {
   const res = [];
   fs.readdir(tempFolder, async (err, items) => {
     await asyncForEach(items, async (e) => {
-      if(path.extname(e) !== '.json') {
+      if (path.extname(e) !== '.json') {
         await awUnlink(tempFolder + '\\' + e);
       } else {
         await Promise.resolve();
@@ -188,44 +214,60 @@ ipcMain.on('removeImagesFromTemp', (event, arg) => {
 });
 
 ipcMain.on('eraseTemp', (event, arg) => {
-  rimraf(tempFolder,  () => {
+  rimraf(tempFolder, () => {
     fs.mkdir(tempFolder, () => {
       win.webContents.send('eraseTempResponse', tempFolder);
     });
-   });
+  });
+});
+
+ipcMain.on('copyJSONToTemp', (event, arg) => {
+  const input = fs.createReadStream(arg);
+  const output = fs.createWriteStream(tempFolder + '\\index.json');
+  input.pipe(output).once('finish', () => {
+    win.webContents.send(
+      'copyJSONToTempResponse',
+      '\\index.json'
+    );
+  });
 });
 
 
 ipcMain.on('copySingleFileToTemp', (event, arg) => {
-   const input = fs.createReadStream(arg);
-   const output = fs.createWriteStream(tempFolder + '\\' + path.basename(arg));
-   input.pipe(output).once('finish', () => {
-     win.webContents.send('copySingleFileToTempResponse', '\\' + path.basename(arg));
-   });
- });
+  const input = fs.createReadStream(arg);
+  const output = fs.createWriteStream(tempFolder + '\\' + path.basename(arg));
+  input.pipe(output).once('finish', () => {
+    win.webContents.send(
+      'copySingleFileToTempResponse',
+      '\\' + path.basename(arg)
+    );
+  });
+});
 
 ipcMain.on('copySingleFileToTempSafely', (event, arg) => {
-
   const ensureUniqueFilename = new Promise<string>((resolve, reject) => {
-    let currentPath = path.basename(arg);
-    awExists(tempFolder + '\\' + currentPath).then( async (exists) => {
-      if(!exists) {
+    const currentPath = path.basename(arg);
+    awExists(tempFolder + '\\' + currentPath).then(async (exists) => {
+      if (!exists) {
         resolve(currentPath);
       } else {
         let num = 0;
         while (true) {
           num++;
-          let newPath = currentPath.split('.')[0] + ` (${num}).` + currentPath.split('.')[1];
+          const newPath =
+            currentPath.split('.')[0] +
+            ` (${num}).` +
+            currentPath.split('.')[1];
           console.log(newPath);
           let breakFlag = false;
           await awExists(tempFolder + '\\' + newPath).then((exists) => {
             console.log(exists);
-            if(!exists) {
+            if (!exists) {
               breakFlag = true;
               resolve(newPath);
             }
           });
-          if(breakFlag) {
+          if (breakFlag) {
             break;
           }
         }
@@ -243,21 +285,17 @@ ipcMain.on('copySingleFileToTempSafely', (event, arg) => {
 });
 
 ipcMain.on('copyZipFileToTemp', (event, arg) => {
-
   const input = fs.createReadStream(arg);
   const unzipper = unzip.Extract({ path: tempFolder });
   input.pipe(unzipper).once('close', () => {
-
     win.webContents.send('copyZipFileToTempResponse', tempFolder);
   });
 });
 
 ipcMain.on('copyTempToZipFile', (event, arg) => {
-
   const input = fs.createReadStream(arg);
   const unzipper = unzip.Extract({ path: tempFolder });
   input.pipe(unzipper).once('close', () => {
-
     win.webContents.send('copyTempToZipFileResponse', tempFolder);
   });
 });
@@ -273,4 +311,22 @@ ipcMain.on('checkIfExistsInTemp', (event, arg) => {
     console.log(tempFolder + '\\' + arg);
     win.webContents.send('checkIfExistsInTempResponse', exists);
   });
+});
+
+ipcMain.on('UpdateJSONInTemp', (event, arg) => {
+  fs.writeFile(tempFolder + '\\index.json', arg, () => {
+    win.webContents.send('UpdateJSONInTempResponse');
+  });
+});
+
+ipcMain.on('ExportTempToZip', (event, arg) => {
+
+  const output = fs.createWriteStream(arg);
+  const archive = archiver('zip');
+  output.on('close', () => {
+    win.webContents.send('ExportTempToZipResponse');
+  });
+  archive.pipe(output);
+  archive.directory(tempFolder, false);
+  archive.finalize();
 });
