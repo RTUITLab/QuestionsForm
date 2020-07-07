@@ -21,6 +21,16 @@ export class FileTransferService {
     });
   }
 
+  async saveDialog(mode: string) {
+
+    return new Promise<string>((resolve, reject) => {
+      electron.ipcRenderer.once('saveDialogResponse', (event, arg) => {
+        resolve(arg);
+      });
+      electron.ipcRenderer.send('saveDialog', mode);
+    });
+  }
+
   async getJSONFile(path: string) {
 
     return new Promise<string>((resolve, reject) => {
@@ -62,6 +72,25 @@ export class FileTransferService {
       electron.ipcRenderer.send('copySingleFileToTemp', path);
     });
   }
+  async copyJSONToTemp(path: string) {
+
+    return new Promise<string>((resolve, reject) => {
+      electron.ipcRenderer.once('copyJSONToTempResponse', (event, arg) => {
+        resolve(arg);
+      });
+      electron.ipcRenderer.send('copyJSONToTemp', path);
+    });
+  }
+
+  async UpdateJSONInTemp(data: string) {
+
+    return new Promise<string>((resolve, reject) => {
+      electron.ipcRenderer.once('UpdateJSONInTempResponse', (event, arg) => {
+        resolve(arg);
+      });
+      electron.ipcRenderer.send('UpdateJSONInTemp', data);
+    });
+  }
 
   async copySingleFileToTempSafely(path: string) {
 
@@ -79,6 +108,15 @@ export class FileTransferService {
         resolve(arg);
       });
       electron.ipcRenderer.send('copyZipFileToTemp', path);
+    });
+  }
+
+  async ExportTempToZip(path: string) {
+    return new Promise<string>((resolve, reject) => {
+      electron.ipcRenderer.once('ExportTempToZipResponse', (event, arg) => {
+        resolve(arg);
+      });
+      electron.ipcRenderer.send('ExportTempToZip', path);
     });
   }
 

@@ -7,6 +7,6 @@
   <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Изображения'" [icon]="'images-outline'" [link]="'pics'"></app-left-menu-item>
   <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Сырой JSON'" [icon]="'code-slash-outline'" [link]="'raw-json'"></app-left-menu-item>
 
+  <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Экспорт ZIP'" [icon]="'download-outline'" (itemClick)="dmRef.exportZip()"></app-left-menu-item>
   <app-left-menu-item *ngIf="status.fileLoaded" [title]="'Закрыть файл'" [icon]="'close-outline'" (itemClick)="dmRef.close()"></app-left-menu-item>
-
 </div>
