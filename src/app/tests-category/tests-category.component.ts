@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { DataModelService } from '../data-model.service';
-
 @Component({
   selector: 'app-tests-category',
   templateUrl: './tests-category.component.html',
@@ -24,8 +23,12 @@ export class TestsCategoryComponent implements OnInit {
     });
   }
 
-  toggle() {
-    this.isOpened = !this.isOpened;
+  toggle(state: null) {
+    if(state != null) {
+      this.isOpened = state;
+    } else {
+      this.isOpened = !this.isOpened;
+    }
   }
 
   addItem() {
@@ -35,4 +38,5 @@ export class TestsCategoryComponent implements OnInit {
   clear() {
     this.dm.removeTestItemsOfCategory(this.category);
   }
+
 }

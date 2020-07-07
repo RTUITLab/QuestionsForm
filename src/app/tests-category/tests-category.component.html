@@ -6,12 +6,12 @@
     </div>
     <div class="text" (click)="toggle()">{{category == 'schoolboy' ? 'Школьники' : 'Студенты'}} ({{categoryData.A.length + categoryData.B.length}})</div>
     <div class="buttons">
-      <div class="btn blue" (click)="addItem()"><ion-icon name="add-sharp"></ion-icon></div>
+      <div class="btn blue" (click)="addItem(); toggle(true)"><ion-icon name="add-sharp"></ion-icon></div>
       <div class="btn red" (click)="clear()"><ion-icon name="close-sharp"></ion-icon></div>
     </div>
   </div>
   <div class="body" *ngIf="isOpened">
-    <app-tests-item *ngFor="let item of categoryData.A; let i = index" [category]="category" [type]="'A'" [id]="i"></app-tests-item>
-    <app-tests-item *ngFor="let item of categoryData.B; let i = index" [category]="category" [type]="'B'" [id]="i"></app-tests-item>
+    <app-tests-item *ngFor="let item of categoryData.A; let i = index" [category]="category" [type]="'A'" [itemId]="i"></app-tests-item>
+    <app-tests-item *ngFor="let item of categoryData.B; let i = index" [category]="category" [type]="'B'" [itemId]="i"></app-tests-item>
   </div>
 </div>

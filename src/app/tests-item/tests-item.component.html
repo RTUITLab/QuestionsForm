@@ -1,5 +1,5 @@
-<div class="item">
-  <div class="text">{{element.text}}</div>
+<div class="item" [class.active]="isOpened">
+  <div class="text" (click)="open()">{{element.text}}</div>
   <div class="buttons">
     <div class="btn red" (click)="remove()"><ion-icon name="close-sharp"></ion-icon></div>
     <div class="slider" [class.off]="type == 'A'" [class.on]="type == 'B'" (click)="toggleType()">

@@ -20,11 +20,24 @@ const protoImages = {
   images: [],
 };
 
+const protoOpenedTest = {
+  isOpened: false,
+  category: '',
+  type: '',
+  id: 0
+}
+
 const protoTestItem = {
   text: 'Новый вопрос',
   img: '',
   weight: 1,
   answers: []
+}
+
+const protoAnswer = {
+  is_correct: false,
+  text: '',
+  img: ''
 }
 
 @Injectable({
@@ -35,6 +48,7 @@ export class DataModelService {
   public data: BehaviorSubject<any> = new BehaviorSubject<any>(protoData);
   public images: BehaviorSubject<any> = new BehaviorSubject<any>(protoImages);
   public tempFolder: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  public openedTest: BehaviorSubject<any> = new BehaviorSubject<any>(protoOpenedTest);
 
   constructor(
     private ft: FileTransferService,
@@ -188,17 +202,24 @@ export class DataModelService {
     return type == 'A' ? 'B' : 'A';
   }
 
+  getLastTestId(category, type) {
+    return this.getTestType(category, type).length - 1;
+  }
+
   addTestItem(category, type) {
-    this.getTestType(category, type).push(protoTestItem);
+    this.getTestType(category, type).push(JSON.parse(JSON.stringify(protoTestItem)));
     this.updateDataParsed();
   }
 
-  removeTestItem(id, category, type) {
+  removeTestItem(id, category, type, isOpened = false) {
     let callback: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     callback.subscribe((result) => {
       if (result == 1) {
         this.getTestType(category, type).splice(id, 1);
+        if(isOpened) {
+          this.closeTest();
+        }
         this.updateDataParsed();
       }
     });
@@ -223,6 +244,9 @@ export class DataModelService {
       if (result == 1) {
         this.getTestCategory(category).A = [];
         this.getTestCategory(category).B = [];
+        if(this.openedTest.getValue().category == category) {
+          this.closeTest();
+        }
         this.updateDataParsed();
       }
     });
@@ -240,9 +264,12 @@ export class DataModelService {
     });
   }
 
-  toggleTestItemType(id, category, type) {
+  toggleTestItemType(id, category, type, isOpened = false) {
     this.getTestType(category, this.getAnotherType(type)).push(this.getTestType(category, type)[id]);
     this.getTestType(category, type).splice(id, 1);
+    if(isOpened) {
+      this.openTest(category, this.getAnotherType(type), this.getLastTestId(category, this.getAnotherType(type)));
+    }
     this.updateDataParsed();
   }
 
@@ -271,4 +298,33 @@ export class DataModelService {
       ],
     });
   }
+
+  openTest(category, type, id) {
+    this.openedTest.next({
+      isOpened: true,
+      category,
+      type,
+      id
+    });
+  }
+
+  closeTest() {
+    this.openedTest.next(Object.create(protoOpenedTest));
+  }
+
+  addAnswer(category, type, testId) {
+    this.getTestType(category, type)[testId].answers.push(JSON.parse(JSON.stringify(protoAnswer)));
+    this.updateDataParsed();
+  }
+
+  removeAnswer(category, type, testId, answerId) {
+    this.getTestType(category, type)[testId].answers.splice(answerId, 1);
+    this.updateDataParsed();
+  }
+
+  removeAllAnswers(category, type, testId) {
+    this.getTestType(category, type)[testId].answers = [];
+    this.updateDataParsed();
+  }
+
 }

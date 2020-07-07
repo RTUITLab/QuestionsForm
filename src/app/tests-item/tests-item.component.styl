@@ -80,14 +80,14 @@
 }
 
 .item .buttons .slider.off .off {
-  color: #00cefd;
+  color: #00cefd !important;
   background-color: #3c404d;
   border-radius: 2px 4px 4px 2px;
   padding: 0 5px 0 4px;
 }
 
 .item .buttons .slider.off:hover .off {
-  color: #fff;
+  color: #fff !important;
   background-color: #00cefd;
 }
 
@@ -96,18 +96,29 @@
 }
 
 .item .buttons .slider.on .on {
-  color: #fd566c;
+  color: #fd566c !important;
   background-color: #3c404d;
   border-radius: 4px 2px 2px 4px;
   padding: 0 4px 0 5px;
 }
 
 .item .buttons .slider.on:hover .on {
-  color: #fff;
+  color: #fff !important;
   background-color: #e74d5a;
 }
 
 .item .buttons .slider.on:hover {
   border: 1px solid #e74d5a;
+}
+
+.item.active {
+  background-color: #595c67;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.item.active .buttons .slider .off,
+.item.active .buttons .slider .on {
+  color: #fff;
 }
 
