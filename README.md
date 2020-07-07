@@ -12,3 +12,11 @@ Next, run `npm start` to run the application.
 
 Run `npm run build` to build the project. Packaged app bundle will appear in `./package` directory.
 
+## TODO
+
+- Realtime search for images
+- Images renaming
+- Images linking UI in questions editor
+- Import validation
+- Single JSON "save" and "save as" options
+- Responsive window status bar 
