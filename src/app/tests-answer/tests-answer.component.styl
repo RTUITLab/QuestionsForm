@@ -13,27 +13,6 @@ input[type=date]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.main {
-  padding: 20px;
-  padding-top: 0;
-  padding-bottom: 10px;
-  position: absolute;
-  overflow: auto;
-  top: 0; bottom: 0; left: 250px; right: 0;
-}
-
-.option {
-  margin: 10px 0;
-  display:flex;
-  flex-direction:column;
-}
-
-.option > span {
-  font-size: 11pt;
-  display: block;
-  margin: 10px 0;
-}
-
 .input:not([type="checkbox"]) {
   display:flex;
   flex-direction:column;
@@ -120,24 +99,14 @@ input[type=date]::-webkit-outer-spin-button {
   background: rgba(0,206,253,.996) !important;
 }
 
-.answers > span {
-  font-size: 11pt;
-  display: block;
-  margin-top: 20px;
-}
-
-.answers .list {
-  padding-left: 25px;
-}
-
-.answers .list .answer {
+.answer {
   padding-left: 15px;
   position: relative;
   margin-top: 10px;
   margin-bottom: 25px;
 }
 
-.answers .list .answer .before {
+.answer .before {
   position: absolute;
   top: 0; bottom: 0; left: 0;
   width: 5px;
@@ -145,76 +114,70 @@ input[type=date]::-webkit-outer-spin-button {
   background-color: #595c67;
 }
 
-.answers .list .answer .activator {
+.answer .activator {
   position: absolute;
   top: 0;
   left: -25px;
 }
 
-.answers .list .answer .activator {
-  position: absolute;
-  top: 0;
-  left: -25px;
-}
-
-.answers .list .answer .input[type='checkbox']+label {
+.answer .input[type='checkbox']+label {
   cursor: pointer;
 }
 
-.answers .list .answer .input[type='checkbox']:checked~.before {
+.answer .input[type='checkbox']:checked~.before {
   background-color: #00cefd;
 }
 
 
-.answers .list .answer > span {
+.answer > span {
   font-size: 11pt;
   display: block;
   margin-bottom: 10px;
 }
 
-.answers .list .answer .param {
+.answer .param {
   margin-bottom: 10px;
   display:flex;
   flex-direction:column;
 }
 
-.answers .list .answer .param > span {
+.answer .param > span {
   font-size: 11pt;
   display: block;
   margin: 10px 0;
 }
 
 .buttons {
-  position: relative;
+  position: absolute;
+  top: 25px;
+  left: -25px;
   display: flex;
-  margin-top: 15px;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .buttons .btn {
   display: flex;
-  margin-right: 15px;
-  font-size: 8pt;
-  padding: 5px 7px;
+  margin-right: 2px;
   border-radius: 4px;
   cursor: pointer;
+  justify-content: center;
+  border: 1px solid #3c404d;
+  color: #aaa;
 }
 
-.buttons .btn.red {
-  border: 1px solid #e74d5a;
-  color: #e74d5a;
-}
-
-.buttons .btn.blue {
-  border: 1px solid #00cefd;
-  color: #00cefd;
+.buttons .btn:last-child {
+  margin-right: 5px;
 }
 
 .buttons .btn.red:hover {
-  color: #fff;
+  border: 1px solid #e74d5a;
   background-color: #e74d5a;
-}
-.buttons .btn.blue:hover {
   color: #fff;
+}
+
+.buttons .btn.blue:hover {
+  border: 1px solid #00cefd;
   background-color: #00cefd;
+  color: #fff;
 }

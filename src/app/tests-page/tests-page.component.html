@@ -1,4 +1,5 @@
 <div class="main">
   <app-tests-selector></app-tests-selector>
-  <app-tests-options></app-tests-options>
+  <app-tests-options *ngIf="openedTest.isOpened"></app-tests-options>
+  <app-tests-options-placeholder *ngIf="!openedTest.isOpened"></app-tests-options-placeholder>
 </div>

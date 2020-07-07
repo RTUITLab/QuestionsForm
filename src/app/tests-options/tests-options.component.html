@@ -1,78 +1,27 @@
 <div class="main">
   <div class="option">
     <span>Текст вопроса</span>
-    <textarea class="input wide" rows="7" spellcheck="true"></textarea>
+    <textarea class="input wide" [(ngModel)]="test.text" (input)="onChanges($event)" rows="7" spellcheck="false"></textarea>
   </div>
 
   <div class="option">
     <span>Ссылка на изображение</span>
-    <input class="input" type="text" spellcheck="false" />
+    <input class="input" type="text" [(ngModel)]="test.img" (input)="onChanges($event)" spellcheck="false" />
   </div>
 
   <div class="option">
     <span>Весовой коэффицитент</span>
-    <input class="input" type="text" spellcheck="false" pattern="^[ 0-9]+$" />
+    <input class="input" type="text" [(ngModel)]="test.weight" (input)="onChanges($event, test.weight, '^[0-9]+$')" spellcheck="false" pattern="^[0-9]+$" required />
   </div>
 
   <div class="answers">
-    <span>Ответы</span>
+    <span>Ответы ({{test.answers.length}})</span>
+    <div class="buttons">
+      <div class="btn blue" (click)="add()">Добавить ответ</div>
+      <div class="btn red" (click)="removeAll()">Удалить все</div>
+    </div>
     <div class="list">
-
-
-      <div class="answer">
-        <input class="input" type="checkbox" #answer1 id="answer1">
-        <label class="activator" for="answer1">
-          <div class="fakebox">
-            <ion-icon class="check" name="checkmark-outline"></ion-icon>
-          </div>
-        </label>
-        <div class="before"></div>
-        <div class="param">
-          <span>Текст ответа</span>
-          <textarea class="input wide" rows="3" spellcheck="true"></textarea>
-        </div>
-        <div class="param">
-          <span>Ссылка на изображение</span>
-          <input class="input" type="text" spellcheck="false" />
-        </div>
-      </div>
-
-      <div class="answer">
-        <input class="input" type="checkbox" #answer1 id="answer1">
-        <label class="activator" for="answer1">
-          <div class="fakebox">
-            <ion-icon class="check" name="checkmark-outline"></ion-icon>
-          </div>
-        </label>
-        <div class="before"></div>
-        <div class="param">
-          <span>Текст ответа</span>
-          <textarea class="input wide" rows="3" spellcheck="true"></textarea>
-        </div>
-        <div class="param">
-          <span>Ссылка на изображение</span>
-          <input class="input" type="text" spellcheck="false" />
-        </div>
-      </div>
-
-      <div class="answer">
-        <input class="input" type="checkbox" #answer1 id="answer1">
-        <label class="activator" for="answer1">
-          <div class="fakebox">
-            <ion-icon class="check" name="checkmark-outline"></ion-icon>
-          </div>
-        </label>
-        <div class="before"></div>
-        <div class="param">
-          <span>Текст ответа</span>
-          <textarea class="input wide" rows="3" spellcheck="true"></textarea>
-        </div>
-        <div class="param">
-          <span>Ссылка на изображение</span>
-          <input class="input" type="text" spellcheck="false" />
-        </div>
-      </div>
-
+      <app-tests-answer *ngFor="let item of test.answers; let i = index" [category]="openedTest.category" [type]="openedTest.type" [testId]="openedTest.id" [answerId]="i"></app-tests-answer>
     </div>
   </div>
 </div>

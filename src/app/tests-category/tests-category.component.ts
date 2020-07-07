@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { DataModelService } from '../data-model.service';
-
 @Component({
   selector: 'app-tests-category',
   templateUrl: './tests-category.component.html',
@@ -39,4 +38,5 @@ export class TestsCategoryComponent implements OnInit {
   clear() {
     this.dm.removeTestItemsOfCategory(this.category);
   }
+
 }

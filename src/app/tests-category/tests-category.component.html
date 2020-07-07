@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="body" *ngIf="isOpened">
-    <app-tests-item *ngFor="let item of categoryData.A; let i = index" [category]="category" [type]="'A'" [id]="i"></app-tests-item>
-    <app-tests-item *ngFor="let item of categoryData.B; let i = index" [category]="category" [type]="'B'" [id]="i"></app-tests-item>
+    <app-tests-item *ngFor="let item of categoryData.A; let i = index" [category]="category" [type]="'A'" [itemId]="i"></app-tests-item>
+    <app-tests-item *ngFor="let item of categoryData.B; let i = index" [category]="category" [type]="'B'" [itemId]="i"></app-tests-item>
   </div>
 </div>

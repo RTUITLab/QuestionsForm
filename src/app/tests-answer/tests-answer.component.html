@@ -1,0 +1,20 @@
+<div class="answer">
+  <input class="input" type="checkbox" [checked]="answer.is_correct" (change)="onCheckboxChanges(answerCheckbox, 'is_correct')" #answerCheckbox [id]="answerId">
+  <label class="activator" [for]="answerId">
+    <div class="fakebox">
+      <ion-icon class="check" name="checkmark-outline"></ion-icon>
+    </div>
+  </label>
+  <div class="before"></div>
+  <div class="buttons">
+    <div class="btn red" (click)="remove()"><ion-icon name="close-sharp"></ion-icon></div>
+  </div>
+  <div class="param">
+    <span>Текст ответа</span>
+    <textarea class="input wide" [(ngModel)]="answer.text" (input)="onChanges($event)" rows="3" spellcheck="false"></textarea>
+  </div>
+  <div class="param">
+    <span>Ссылка на изображение</span>
+    <input class="input" type="text" [(ngModel)]="answer.img" (input)="onChanges($event)" spellcheck="false" />
+  </div>
+</div>
