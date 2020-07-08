@@ -69,7 +69,7 @@ function createWindow() {
     })
   );
 
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   win.on('closed', () => {
     win = null;
@@ -110,7 +110,7 @@ ipcMain.on('openDialog', (event, arg) => {
       properties: ['openFile'],
     });
     files.then((val) => {
-      if (val != undefined) {
+      if (!val.canceled) {
         win.webContents.send('openDialogResponse', val.filePaths[0]);
       } else {
         win.webContents.send('openDialogResponse', undefined);
@@ -126,7 +126,11 @@ ipcMain.on('openDialog', (event, arg) => {
       properties: ['openFile'],
     });
     files.then((val) => {
-      win.webContents.send('openDialogResponse', val.filePaths[0]);
+      if (!val.canceled) {
+        win.webContents.send('openDialogResponse', val.filePaths[0]);
+      } else {
+        win.webContents.send('openDialogResponse', undefined);
+      }
     });
   } else if (arg == 'image') {
     const files = dialog.showOpenDialog({
@@ -138,7 +142,11 @@ ipcMain.on('openDialog', (event, arg) => {
       properties: ['openFile'],
     });
     files.then((val) => {
-      win.webContents.send('openDialogResponse', val.filePaths[0]);
+      if (!val.canceled) {
+        win.webContents.send('openDialogResponse', val.filePaths[0]);
+      } else {
+        win.webContents.send('openDialogResponse', undefined);
+      }
     });
   }
 });
@@ -153,7 +161,7 @@ ipcMain.on('saveDialog', (event, arg) => {
       ]
     });
     files.then((val) => {
-      if (val != undefined) {
+      if (!val.canceled) {
         win.webContents.send('saveDialogResponse', val.filePath);
       } else {
         win.webContents.send('saveDialogResponse', undefined);
@@ -168,7 +176,7 @@ ipcMain.on('saveDialog', (event, arg) => {
       ]
     });
     files.then((val) => {
-      if (val != undefined) {
+      if (!val.canceled) {
         win.webContents.send('saveDialogResponse', val.filePath);
       } else {
         win.webContents.send('saveDialogResponse', undefined);

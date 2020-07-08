@@ -8,8 +8,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start": "ng build --base-href ./ && tsc --p electron && electron .",
+    "start-prod": "ng build  --prod --base-href ./ && tsc --p electron && electron .",
     "rebuild": "electron-rebuild -f",
-    "build": "ng build --prod --base-href ./ && tsc --p electron && electron-packager . test-editor  --platform=win32 --arch=ia32 --overwrite --out=./package"
+    "build": "ng build --base-href ./ && tsc --p electron && electron-packager . test-editor  --platform=win32 --arch=ia32 --overwrite --out=./package",
+    "build-prod": "ng build --prod --base-href ./ && tsc --p electron && electron-packager . test-editor  --platform=win32 --arch=ia32 --overwrite --out=./package"
   },
   "private": true,
   "dependencies": {

@@ -23,7 +23,7 @@ export class TestsCategoryComponent implements OnInit {
     });
   }
 
-  toggle(state: null) {
+  toggle(state = null) {
     if(state != null) {
       this.isOpened = state;
     } else {

@@ -288,6 +288,7 @@ export class DataModelService {
           this.router.navigate([""]);
           this.status.next(protoStatus);
           this.data.next(protoData);
+          this.closeTest();
         });
       }
     });
