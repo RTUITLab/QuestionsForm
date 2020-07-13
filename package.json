@@ -30,7 +30,7 @@
     "archiver": "^4.0.1",
     "font-awesome": "^4.7.0",
     "ionicons": "^4.6.3",
-    "ngx-pipes": "^2.7.3",
+    "ngx-pipes": "^2.7.5",
     "rimraf": "^3.0.2",
     "rxjs": "~6.6.0",
     "tslib": "^1.10.0",
