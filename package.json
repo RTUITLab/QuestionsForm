@@ -27,7 +27,7 @@
     "@ionic/angular": "^5.2.3",
     "@types/electron": "^1.6.10",
     "adm-zip": "^0.4.16",
-    "archiver": "^4.0.1",
+    "archiver": "^4.0.2",
     "font-awesome": "^4.7.0",
     "ionicons": "^4.6.3",
     "ngx-pipes": "^2.7.3",
